@@ -1,6 +1,6 @@
 ﻿namespace ImageToConsoleImage
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -72,7 +72,7 @@
             this.panelImage.Size = new System.Drawing.Size(320, 320);
             this.panelImage.TabIndex = 3;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -81,7 +81,7 @@
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonLoad);
             this.Controls.Add(this.textBoxResult);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "ConsoleImage Converter";
             this.ResumeLayout(false);
             this.PerformLayout();
