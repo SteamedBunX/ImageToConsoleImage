@@ -39,7 +39,7 @@ namespace ImageToConsoleImage
                     string fileName = theDialog.FileName;
                     //MessageBox.Show(fileName);
                     sourceImage = new Bitmap(fileName);
-                    stretchedImage = ResizeImage(sourceImage, new Size(320,320));
+                    stretchedImage = ResizeImage(sourceImage, new Size(320, 320));
                     panelImage.BackgroundImage = stretchedImage;
                 }
                 catch (Exception ex)
@@ -95,12 +95,11 @@ namespace ImageToConsoleImage
         public string ProcessPixels(Bitmap img)
         {
             string result = "";
-            for (int y = 0; y < img.Height; y += 2)
+            for (int y = 0; y < img.Height; y++)
             {
                 for (int x = 0; x < img.Width; x++)
                 {
                     result += ProcessPixel(img.GetPixel(x, y), defaultColors);
-                    result += ProcessPixel(img.GetPixel(x, y + 1), defaultColors);
                 }
                 result += "\n";
             }
@@ -111,7 +110,7 @@ namespace ImageToConsoleImage
         {
             if (color.A == 0)
             {
-                return '0';
+                return 'T';
             }
             if (color.ToArgb() == Color.Black.ToArgb())
             {
@@ -181,7 +180,8 @@ namespace ImageToConsoleImage
             }
         }
 
-        //Follow code comes from https://stackoverflow.com/questions/87753/resizing-an-image-without-losing-any-quality
+        // Follow codes are modified from 
+        // https://stackoverflow.com/questions/87753/resizing-an-image-without-losing-any-quality
         private static Bitmap ResizeImage(Image imgToResize, Size size)
         {
             int sourceWidth = imgToResize.Width;
@@ -204,6 +204,7 @@ namespace ImageToConsoleImage
 
             Bitmap b = new Bitmap(destWidth, destHeight);
             Graphics g = Graphics.FromImage((Image)b);
+            // this mode allows the low defination image to be strached out without looking blurry.
             g.InterpolationMode = InterpolationMode.NearestNeighbor;
 
             g.DrawImage(imgToResize, 0, 0, destWidth, destHeight);
