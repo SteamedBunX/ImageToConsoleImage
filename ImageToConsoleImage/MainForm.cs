@@ -79,7 +79,10 @@ namespace ImageToConsoleImage
                     {
                         if (currentP.ToArgb() != Color.Black.ToArgb())
                         {
-                            defaultColors.Add(currentP);
+                            if (currentP.ToArgb() != Color.White.ToArgb())
+                            {
+                                defaultColors.Add(currentP);
+                            }
                         }
                     }
                 }
@@ -114,51 +117,28 @@ namespace ImageToConsoleImage
             }
             if (color.ToArgb() == Color.Black.ToArgb())
             {
-                return '0';
+                return 'Z';
+            }
+            if (color.ToArgb() == Color.White.ToArgb())
+            {
+                return 'W';
             }
 
             for (int i = 0; i < defCs.Count; i++)
             {
                 if (color.ToArgb() == defCs[i].ToArgb())
                 {
-                    switch (i)
+                    if (i < 10)
                     {
-                        case 0:
-                            return '1';
-                        case 1:
-                            return '2';
-                        case 2:
-                            return '3';
-                        case 3:
-                            return '4';
-                        case 4:
-                            return '5';
-                        case 5:
-                            return '6';
-                        case 6:
-                            return '7';
-                        case 7:
-                            return '8';
-                        case 8:
-                            return '9';
-                        case 9:
-                            return 'A';
-                        case 10:
-                            return 'B';
-                        case 11:
-                            return 'C';
-                        case 12:
-                            return 'D';
-                        case 13:
-                            return 'E';
-                        default:
-                            break;
-
+                        return (char)('0' + i);
+                    }
+                    if (i < 14)
+                    {
+                        return (char)('A' + i - 10);
                     }
                 }
             }
-            char result = '0';
-            return result;
+            return 'T';
         }
 
         private void ButtonSave_Click(object sender, EventArgs e)
