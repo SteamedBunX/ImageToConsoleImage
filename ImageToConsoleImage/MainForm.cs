@@ -16,6 +16,7 @@ namespace ImageToConsoleImage
     {
         Bitmap sourceImage;
         Bitmap stretchedImage;
+        List<string> bitmap = new List<string>();
         List<Color> defaultColors;
         string currentResult = "";
 
@@ -48,8 +49,7 @@ namespace ImageToConsoleImage
                 }
             }
             currentResult = ProcessImage(sourceImage);
-            string ciText = currentResult;
-            textBoxResult.Text = ciText.Replace("\n", "\r\n");
+            textBoxResult.Text = currentResult.Replace("\n", "\r\n");
 
         }
 
@@ -98,11 +98,16 @@ namespace ImageToConsoleImage
         public string ProcessPixels(Bitmap img)
         {
             string result = "";
+            char pixelInChar;
+            bitmap.Clear();
             for (int y = 0; y < img.Height; y++)
             {
+                bitmap.Add("");
                 for (int x = 0; x < img.Width; x++)
                 {
-                    result += ProcessPixel(img.GetPixel(x, y), defaultColors);
+                    pixelInChar = ProcessPixel(img.GetPixel(x, y), defaultColors);
+                    result += pixelInChar;
+                    bitmap[y] += pixelInChar;
                 }
                 result += "\n";
             }
@@ -191,6 +196,83 @@ namespace ImageToConsoleImage
             g.Dispose();
 
             return b;
+        }
+
+        private void ButtonTrim_Click(object sender, EventArgs e)
+        {
+            int leftEdge = bitmap[0].Count()-1;
+            int rightEdge = 0;
+            int topEdge = 0;
+            int bottemEdge = bitmap.Count;
+            bool topDone = false;
+            for (int i = 0; i < bitmap.Count; i++)
+            {
+                (bool isEdge, int lineLeftEdge, int lineRightEdge) = ProcessLine(bitmap[i]);
+                rightEdge = Math.Max(rightEdge, lineRightEdge);
+                leftEdge = Math.Min(leftEdge, lineLeftEdge);
+                if (!topDone)
+                {
+                    if (isEdge)
+                    {
+                        topEdge = i;
+                    }
+                    else
+                    {
+                        topEdge = i;
+                        topDone = true;
+                    }
+                }
+                else
+                {
+                    if (!isEdge)
+                    {
+                        bottemEdge = i;
+                    }
+                }
+            }
+            Trim(leftEdge, rightEdge, topEdge, bottemEdge);
+            string result = "";
+            foreach (Color c in defaultColors)
+            {
+                result += "#" + ((int)c.R).ToString("X2") + ((int)c.G).ToString("X2") + ((int)c.B).ToString("X2") + "\n";
+            }
+            result += "\n";
+            foreach (string l in bitmap)
+            {
+                result += l + "\n";
+            }
+            currentResult = result;
+            textBoxResult.Text = currentResult.Replace("\n", "\r\n");
+        }
+
+        private void Trim(int leftEdge, int rightEdge, int topEdge, int bottemEdge)
+        {
+            bitmap.RemoveRange(bottemEdge + 1, bitmap.Count - bottemEdge - 1);
+            bitmap.RemoveRange(0, topEdge);
+            for (int i = 0; i < bitmap.Count; i++)
+            {
+                bitmap[i] = bitmap[i].Substring(leftEdge, rightEdge - leftEdge + 1);
+            }
+        }
+
+        private (bool, int, int) ProcessLine(string line)
+        {
+            bool edge = true;
+            int leftEdge = line.Length - 1;
+            int rightEdge = 0;
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (line[i] != 'T')
+                {
+                    edge = false;
+                    rightEdge = i;
+                }
+                if (line[line.Length - 1 - i] != 'T')
+                {
+                    leftEdge = line.Length - 1 - i;
+                }
+            }
+            return (edge, leftEdge, rightEdge);
         }
     }
 }

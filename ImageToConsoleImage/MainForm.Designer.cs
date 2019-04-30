@@ -32,6 +32,7 @@
             this.buttonLoad = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
             this.panelImage = new System.Windows.Forms.Panel();
+            this.buttonTrim = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxResult
@@ -46,7 +47,7 @@
             // 
             // buttonLoad
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(782, 95);
+            this.buttonLoad.Location = new System.Drawing.Point(782, 45);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(240, 50);
             this.buttonLoad.TabIndex = 1;
@@ -56,7 +57,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(782, 190);
+            this.buttonSave.Location = new System.Drawing.Point(782, 189);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(240, 50);
             this.buttonSave.TabIndex = 2;
@@ -72,11 +73,22 @@
             this.panelImage.Size = new System.Drawing.Size(320, 320);
             this.panelImage.TabIndex = 3;
             // 
+            // buttonTrim
+            // 
+            this.buttonTrim.Location = new System.Drawing.Point(782, 117);
+            this.buttonTrim.Name = "buttonTrim";
+            this.buttonTrim.Size = new System.Drawing.Size(240, 50);
+            this.buttonTrim.TabIndex = 4;
+            this.buttonTrim.Text = "Trim Transparent Edge";
+            this.buttonTrim.UseVisualStyleBackColor = true;
+            this.buttonTrim.Click += new System.EventHandler(this.ButtonTrim_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1082, 659);
+            this.Controls.Add(this.buttonTrim);
             this.Controls.Add(this.panelImage);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonLoad);
@@ -94,6 +106,7 @@
         private System.Windows.Forms.Button buttonLoad;
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Panel panelImage;
+        private System.Windows.Forms.Button buttonTrim;
     }
 }
 
